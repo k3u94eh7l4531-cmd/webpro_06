@@ -35,6 +35,18 @@ app.get("/keiyo2/:number", (req, res) => {
   res.render('keiyo2_detail', {data: detail} );
 });
 
+app.get("/keiyo2_add", (req, res) => {
+  let id = req.query.id;
+  let code = req.query.code;
+  let name = req.query.name;
+  let change = req.query.change;
+  let passengers = Number( req.query.passengers );
+  let distance = Number( req.query.distance );
+  let newdata = {id: id, code: code, name: name, change: change, passengers: passengers, distance: distance };
+  station2.push( newdata );
+  res.render('keiyo2', {data: station2} );
+});
+
 app.get("/keiyo", (req, res) => {
   // 本来ならここにDBとのやり取りが入る
   res.render('db2', { data: station });
