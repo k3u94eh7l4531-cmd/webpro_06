@@ -1,0 +1,20 @@
+<!Doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>日本の山</title>
+</head>
+<body>
+  <h2>日本の山の一覧</h2>
+  <table>
+    <tr><th>ID</th><th>山名</th><th>標高(m)</th><th>都道府県</th></tr>
+      <% for( let row of data ) { %>
+        <tr><td><%= row.id %></td>
+        <td><%= row.name %></td>
+        <td><%= row.height %></td>
+        <td><%= row.pref %></td></tr>
+      <% } %>
+  </table>
+  <p><a href="/public/mountain_add.html">山を追加する</a></p>
+</body>
+</html>
