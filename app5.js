@@ -4,6 +4,55 @@ const app = express();
 app.set('view engine', 'ejs');
 app.use("/public", express.static(__dirname + "/public"));
 
+let station = [
+  { id:1, code:"JE01", name:"東京駅"},
+  { id:2, code:"JE07", name:"舞浜駅"},
+  { id:3, code:"JE12", name:"新習志野駅"},
+  { id:4, code:"JE13", name:"幕張豊砂駅"},
+  { id:5, code:"JE14", name:"海浜幕張駅"},
+  { id:6, code:"JE05", name:"新浦安駅"},
+];
+
+app.get("/keiyo", (req, res) => {
+  // 本来ならここにDBとのやり取りが入る
+  res.render('db2', { data: station });
+});
+
+app.get("/keiyo_add", (req, res) => {
+  let id = req.query.id;
+  let code = req.query.code;
+  let name = req.query.name;
+  let newdata = { id: id, code: code, name: name };
+  station.push( newdata );
+  // 登録後はデータ一覧ページを返す（追加されたことをすぐ確認できるため）
+  // 入力ページに戻す場合は res.redirect('/public/keiyo_add.html'); とする
+  res.render('db2', { data: station });
+});
+
+// 課題(2)(3)：日本の山の一覧と追加
+let mountain = [
+  { id:1, name:"富士山",   height:3776, pref:"静岡県・山梨県"},
+  { id:2, name:"北岳",     height:3193, pref:"山梨県"},
+  { id:3, name:"奥穂高岳", height:3190, pref:"長野県・岐阜県"},
+  { id:4, name:"槍ヶ岳",   height:3180, pref:"長野県"},
+  { id:5, name:"御嶽山",   height:3067, pref:"長野県・岐阜県"},
+  { id:6, name:"筑波山",   height:877,  pref:"茨城県"},
+];
+
+app.get("/mountain", (req, res) => {
+  res.render('mountain', { data: mountain });
+});
+
+app.get("/mountain_add", (req, res) => {
+  let id = Number( req.query.id );
+  let name = req.query.name;
+  let height = Number( req.query.height );
+  let pref = req.query.pref;
+  let newdata = { id: id, name: name, height: height, pref: pref };
+  mountain.push( newdata );
+  res.render('mountain', { data: mountain });
+});
+
 app.get("/hello1", (req, res) => {
   const message1 = "Hello world";
   const message2 = "Bon jour";
