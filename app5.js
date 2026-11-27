@@ -42,6 +42,15 @@ app.get("/keiyo2/:number", (req, res) => {
   res.render('keiyo2_detail', {id: number, data: detail} );
 });
 
+// Delete
+app.get("/keiyo2/delete/:number", (req, res) => {
+  // 本来は削除の確認ページを表示する
+  // 本来は削除する番号が存在するか厳重にチェックする
+  // 本来ならここにDBとのやり取りが入る
+  station2.splice( req.params.number, 1 );
+  res.redirect('/keiyo2' );
+});
+
 // Edit
 app.get("/keiyo2/edit/:number", (req, res) => {
   // 本来ならここにDBとのやり取りが入る
@@ -66,7 +75,7 @@ app.post("/keiyo2/update/:number", (req, res) => {
 // Create（実際の登録処理）
 app.post("/keiyo2", (req, res) => {
   // 本来ならここにDBとのやり取りが入る
-  const id = station2.length + 1;
+  const id = station2.length > 0 ? Math.max( ...station2.map( s => s.id ) ) + 1 : 1;
   const code = req.body.code;
   const name = req.body.name;
   const change = req.body.change;

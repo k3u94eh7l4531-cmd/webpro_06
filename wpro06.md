@@ -66,3 +66,37 @@ id | number | ID | 数値
 name | text | 山名 | 文字列
 height | number | 標高(m) | 数値
 pref | text | 都道府県 | 文字列
+
+### 京葉線データベースアプリ（keiyo2）
+#### リソース名と機能
+
+機能 | method | リソース名 | 内容
+-|-|-|-
+一覧表示 | GET | /keiyo2 | 駅の一覧を表示する
+新規登録フォーム | GET | /keiyo2/create | /public/keiyo2_new.html にリダイレクトする
+新規登録処理 | POST | /keiyo2 | 駅を追加し，一覧を表示する
+詳細表示 | GET | /keiyo2/:number | 駅の詳細を表示する
+編集フォーム | GET | /keiyo2/edit/:number | 編集画面を表示する
+更新処理 | POST | /keiyo2/update/:number | 駅の情報を更新し，一覧にリダイレクトする
+削除処理 | GET | /keiyo2/delete/:number | 駅を削除し，一覧にリダイレクトする
+
+:number は配列の番号（0から始まる）である．
+
+#### ページ遷移図
+削除は詳細ページから実行する．
+
+```mermaid
+stateDiagram-v2
+[*] --> /keiyo2
+/keiyo2 --> /keiyo2/create:追加
+/keiyo2/create --> /public/keiyo2_new.html:リダイレクト
+/public/keiyo2_new.html --> post_/keiyo2:登録
+post_/keiyo2 --> /keiyo2:一覧表示
+/keiyo2 --> /keiyo2/:number:駅名を選択
+/keiyo2/:number --> /keiyo2:駅一覧に戻る
+/keiyo2/:number --> /keiyo2/edit/:number:編集
+/keiyo2/edit/:number --> /keiyo2/update/:number:登録
+/keiyo2/update/:number --> /keiyo2:リダイレクト
+/keiyo2/:number --> /keiyo2/delete/:number:削除
+/keiyo2/delete/:number --> /keiyo2:リダイレクト
+```
